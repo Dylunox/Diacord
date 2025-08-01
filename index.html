@@ -578,30 +578,31 @@
         .input-label {
             font-weight: 600;
             color: var(--text-primary);
+            font-size: calc(1rem * var(--font-size-multiplier));
         }
 
         .input-field {
             background: var(--bg-card);
             border: 2px solid var(--border-color);
             color: var(--text-primary);
-            padding: 0.75rem 1rem;
-            border-radius: 10px;
+            padding: 1rem;
+            border-radius: 15px;
             font-size: calc(1rem * var(--font-size-multiplier));
             transition: all 0.3s ease;
+            outline: none;
         }
 
         .input-field:focus {
-            outline: none;
             border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 0 3px var(--shadow-color);
         }
 
         .calculator-result {
-            background: var(--bg-secondary);
-            border-radius: 15px;
-            padding: 1.5rem;
             text-align: center;
-            border: 2px solid var(--accent-primary);
+            padding: 1.5rem;
+            background: var(--bg-glass);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
         }
 
         .result-label {
@@ -610,7 +611,7 @@
             margin-bottom: 0.5rem;
         }
 
-        .result-price {
+        .result-value {
             font-size: calc(2rem * var(--font-size-multiplier));
             font-weight: 800;
             background: var(--gradient-primary);
@@ -619,49 +620,36 @@
             background-clip: text;
         }
 
-        /* Discount System */
-        .discount-section {
-            background: var(--gradient-card);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
+        /* Discount Cards */
+        .discounts-section {
+            margin: 4rem 0;
         }
 
-        .discount-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-secondary);
-        }
-
-        .discount-title {
-            font-size: calc(1.5rem * var(--font-size-multiplier));
-            font-weight: 700;
-            margin-bottom: 1.5rem;
+        .section-title {
+            font-size: calc(2.5rem * var(--font-size-multiplier));
+            font-weight: 800;
             text-align: center;
-            background: var(--gradient-secondary);
+            margin-bottom: 3rem;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .discount-grid {
+        .discounts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .discount-card {
-            background: var(--bg-secondary);
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 2px solid var(--border-color);
+            background: var(--gradient-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -670,54 +658,55 @@
         .discount-card::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: var(--gradient-secondary);
-            border-radius: 15px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .discount-card:hover::before {
-            opacity: 1;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
         }
 
         .discount-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px var(--shadow-color);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow-color);
         }
 
         .discount-badge {
-            background: var(--gradient-secondary);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: calc(0.9rem * var(--font-size-multiplier));
             display: inline-block;
+            background: var(--gradient-primary);
+            color: var(--bg-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: calc(1.2rem * var(--font-size-multiplier));
             margin-bottom: 1rem;
+        }
+
+        .discount-title {
+            font-size: calc(1.3rem * var(--font-size-multiplier));
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
         .discount-description {
             color: var(--text-secondary);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             line-height: 1.6;
         }
 
         .discount-code {
             background: var(--bg-card);
             border: 2px dashed var(--accent-primary);
-            padding: 0.75rem;
+            padding: 1rem;
             border-radius: 10px;
             text-align: center;
             font-family: var(--font-family-mono);
             font-weight: 600;
+            font-size: calc(1.1rem * var(--font-size-multiplier));
             color: var(--accent-primary);
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .discount-code:hover {
@@ -725,193 +714,48 @@
             color: var(--bg-primary);
         }
 
-        /* Enhanced Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 0 2rem;
-            position: relative;
-            overflow: hidden;
+        /* Courses Section */
+        .courses-section {
+            margin: 4rem 0;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
-            animation: pulse-bg calc(4s / var(--animation-speed)) ease-in-out infinite;
-        }
-
-        @keyframes pulse-bg {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        .hero-content {
-            max-width: 900px;
-            animation: fadeInUp calc(1s / var(--animation-speed)) ease-out;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: calc(4rem * var(--font-size-multiplier));
-            font-weight: 900;
-            margin-bottom: 1rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-            position: relative;
-        }
-
-        .hero p {
-            font-size: calc(1.4rem * var(--font-size-multiplier));
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            animation: fadeInUp calc(1s / var(--animation-speed)) ease-out calc(0.5s / var(--animation-speed)) both;
-            line-height: 1.8;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: var(--gradient-primary);
-            color: white;
-            padding: 1.2rem 3rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: calc(1.2rem * var(--font-size-multiplier));
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: fadeInUp calc(1s / var(--animation-speed)) ease-out calc(1s / var(--animation-speed)) both;
-            box-shadow: 0 15px 35px var(--shadow-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 25px 50px var(--shadow-color);
-        }
-
-        /* Enhanced Sections */
-        section {
-            padding: 6rem 0;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            position: relative;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: calc(3rem * var(--font-size-multiplier));
-            font-weight: 800;
-            margin-bottom: 4rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-        }
-
-        .section-title::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            width: 60px;
-            height: 4px;
-            background: var(--gradient-primary);
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        /* Enhanced Courses Grid */
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            margin-top: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .course-card {
             background: var(--gradient-card);
-            border-radius: 25px;
-            padding: 2.5rem;
+            border-radius: 20px;
+            padding: 2rem;
             border: 1px solid var(--border-color);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-primary);
+            transition: all 0.3s ease;
+            text-align: center;
         }
 
         .course-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 30px 60px var(--shadow-color);
-            border-color: var(--accent-primary);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow-color);
         }
 
         .course-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-primary);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-            font-size: calc(2rem * var(--font-size-multiplier));
-            color: white;
-            transition: all 0.3s ease;
+            font-size: calc(3rem * var(--font-size-multiplier));
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
         }
 
-        .course-card:hover .course-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .course-card h3 {
-            font-size: calc(1.6rem * var(--font-size-multiplier));
+        .course-title {
+            font-size: calc(1.5rem * var(--font-size-multiplier));
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--text-primary);
         }
 
-        .course-card p {
+        .course-description {
             color: var(--text-secondary);
             margin-bottom: 2rem;
             line-height: 1.6;
@@ -919,8 +763,9 @@
 
         .course-price {
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
+            gap: 1rem;
             margin-bottom: 2rem;
         }
 
@@ -940,57 +785,80 @@
         }
 
         .course-button {
-            width: 100%;
             background: var(--gradient-primary);
-            color: white;
+            color: var(--bg-primary);
             border: none;
             padding: 1rem 2rem;
-            border-radius: 15px;
+            border-radius: 25px;
             font-weight: 600;
-            font-size: calc(1.1rem * var(--font-size-multiplier));
+            font-size: calc(1rem * var(--font-size-multiplier));
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .course-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .course-button:hover::before {
-            left: 100%;
         }
 
         .course-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px var(--shadow-color);
+            box-shadow: 0 10px 20px var(--shadow-color);
         }
 
-        /* Responsive Design */
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: calc(4rem * var(--font-size-multiplier));
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: calc(1.3rem * var(--font-size-multiplier));
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .hero-button {
+            background: var(--gradient-primary);
+            color: var(--bg-primary);
+            border: none;
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: calc(1.2rem * var(--font-size-multiplier));
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .hero-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
-            }
-
-            .hero h1 {
-                font-size: calc(2.5rem * var(--font-size-multiplier));
-            }
-
-            .hero p {
-                font-size: calc(1.1rem * var(--font-size-multiplier));
-            }
-
-            .courses-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
             }
 
             .settings-panel {
@@ -1002,26 +870,25 @@
                 left: -100%;
             }
 
-            .discount-grid {
-                grid-template-columns: 1fr;
+            .hero-title {
+                font-size: calc(2.5rem * var(--font-size-multiplier));
             }
-        }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+            .hero-subtitle {
+                font-size: calc(1.1rem * var(--font-size-multiplier));
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            .discounts-grid,
+            .courses-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen (Hidden by default) -->
-    <div class="loading-screen" id="loadingScreen" style="display: none;">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
         <div class="loading-animation">
             <div class="loading-ring"></div>
             <div class="loading-ring"></div>
@@ -1034,11 +901,11 @@
     </div>
 
     <!-- Custom Cursor -->
-    <div class="custom-cursor" id="customCursor"></div>
+    <div id="customCursor" class="custom-cursor"></div>
 
     <!-- Animated Background -->
     <div class="animated-bg">
-        <div class="particles-container" id="particlesContainer"></div>
+        <div id="particlesContainer" class="particles-container"></div>
     </div>
 
     <!-- Header -->
@@ -1046,7 +913,7 @@
         <nav>
             <div class="logo">
                 <i class="fas fa-shield-alt logo-icon"></i>
-                <span data-ar="أكاديمية الحماية السيبرانية" data-en="Cyber Security Academy">أكاديمية الحماية السيبرانية</span>
+                <span data-ar="أكاديمية الحماية السيبرانية" data-en="Cybersecurity Academy">أكاديمية الحماية السيبرانية</span>
             </div>
             <ul class="nav-links">
                 <li><a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
@@ -1066,7 +933,7 @@
     </header>
 
     <!-- Settings Panel -->
-    <div class="settings-panel" id="settingsPanel">
+    <div id="settingsPanel" class="settings-panel">
         <div class="settings-header">
             <h3 class="settings-title" data-ar="الإعدادات" data-en="Settings">الإعدادات</h3>
             <button class="settings-close" onclick="toggleSettings()">
@@ -1074,149 +941,117 @@
             </button>
         </div>
         <div class="settings-content">
-            <!-- Language Settings -->
             <div class="setting-group">
                 <label class="setting-label" data-ar="اللغة" data-en="Language">اللغة</label>
                 <div class="setting-options">
-                    <div class="setting-option active" data-language="ar" onclick="changeLanguage('ar')">
-                        <i class="fas fa-globe"></i> العربية
-                    </div>
-                    <div class="setting-option" data-language="en" onclick="changeLanguage('en')">
-                        <i class="fas fa-globe"></i> English
-                    </div>
+                    <button class="setting-option active" data-language="ar" onclick="changeLanguage('ar')" data-ar="العربية" data-en="Arabic">العربية</button>
+                    <button class="setting-option" data-language="en" onclick="changeLanguage('en')" data-ar="English" data-en="English">English</button>
                 </div>
             </div>
 
-            <!-- Currency Settings -->
             <div class="setting-group">
                 <label class="setting-label" data-ar="العملة" data-en="Currency">العملة</label>
                 <div class="setting-options">
-                    <div class="setting-option active" data-currency="usd" onclick="changeCurrency('usd')">
-                        <i class="fas fa-dollar-sign"></i> <span data-ar="دولار أمريكي" data-en="US Dollar">دولار أمريكي</span>
-                    </div>
-                    <div class="setting-option" data-currency="omr" onclick="changeCurrency('omr')">
-                        <i class="fas fa-coins"></i> <span data-ar="ريال عماني" data-en="Omani Rial">ريال عماني</span>
-                    </div>
-                    <div class="setting-option" data-currency="egp" onclick="changeCurrency('egp')">
-                        <i class="fas fa-pound-sign"></i> <span data-ar="جنيه مصري" data-en="Egyptian Pound">جنيه مصري</span>
-                    </div>
+                    <button class="setting-option active" data-currency="usd" onclick="changeCurrency('usd')" data-ar="دولار أمريكي" data-en="US Dollar">دولار أمريكي</button>
+                    <button class="setting-option" data-currency="omr" onclick="changeCurrency('omr')" data-ar="ريال عماني" data-en="Omani Rial">ريال عماني</button>
+                    <button class="setting-option" data-currency="egp" onclick="changeCurrency('egp')" data-ar="جنيه مصري" data-en="Egyptian Pound">جنيه مصري</button>
                 </div>
             </div>
 
-            <!-- Theme Settings -->
             <div class="setting-group">
                 <label class="setting-label" data-ar="المظهر" data-en="Theme">المظهر</label>
                 <div class="setting-options">
-                    <div class="setting-option" data-theme="auto" onclick="setTheme('auto')">
-                        <i class="fas fa-adjust"></i> <span data-ar="تلقائي" data-en="Auto">تلقائي</span>
-                    </div>
-                    <div class="setting-option active" data-theme="dark" onclick="setTheme('dark')">
-                        <i class="fas fa-moon"></i> <span data-ar="داكن" data-en="Dark">داكن</span>
-                    </div>
-                    <div class="setting-option" data-theme="light" onclick="setTheme('light')">
-                        <i class="fas fa-sun"></i> <span data-ar="فاتح" data-en="Light">فاتح</span>
-                    </div>
+                    <button class="setting-option" data-theme="auto" onclick="setTheme('auto')" data-ar="تلقائي" data-en="Auto">تلقائي</button>
+                    <button class="setting-option active" data-theme="dark" onclick="setTheme('dark')" data-ar="داكن" data-en="Dark">داكن</button>
+                    <button class="setting-option" data-theme="light" onclick="setTheme('light')" data-ar="فاتح" data-en="Light">فاتح</button>
                 </div>
             </div>
 
-            <!-- Animation Settings -->
             <div class="setting-group">
                 <label class="setting-label" data-ar="الحركات" data-en="Animations">الحركات</label>
                 <div class="setting-options">
-                    <div class="setting-option active" data-animations="normal" onclick="setAnimations('normal')">
-                        <i class="fas fa-play"></i> <span data-ar="عادي" data-en="Normal">عادي</span>
-                    </div>
-                    <div class="setting-option" data-animations="reduced" onclick="setAnimations('reduced')">
-                        <i class="fas fa-pause"></i> <span data-ar="مخفف" data-en="Reduced">مخفف</span>
-                    </div>
-                    <div class="setting-option" data-animations="none" onclick="setAnimations('none')">
-                        <i class="fas fa-stop"></i> <span data-ar="بدون" data-en="None">بدون</span>
-                    </div>
+                    <button class="setting-option active" data-animations="normal" onclick="setAnimations('normal')" data-ar="عادي" data-en="Normal">عادي</button>
+                    <button class="setting-option" data-animations="reduced" onclick="setAnimations('reduced')" data-ar="مخفف" data-en="Reduced">مخفف</button>
+                    <button class="setting-option" data-animations="none" onclick="setAnimations('none')" data-ar="بدون" data-en="None">بدون</button>
                 </div>
             </div>
 
-            <!-- Font Size Settings -->
             <div class="setting-group">
                 <label class="setting-label" data-ar="حجم الخط" data-en="Font Size">حجم الخط</label>
                 <div class="setting-options">
-                    <div class="setting-option" data-font-size="small" onclick="setFontSize('small')">
-                        <i class="fas fa-font"></i> <span data-ar="صغير" data-en="Small">صغير</span>
-                    </div>
-                    <div class="setting-option active" data-font-size="normal" onclick="setFontSize('normal')">
-                        <i class="fas fa-font"></i> <span data-ar="عادي" data-en="Normal">عادي</span>
-                    </div>
-                    <div class="setting-option" data-font-size="large" onclick="setFontSize('large')">
-                        <i class="fas fa-font"></i> <span data-ar="كبير" data-en="Large">كبير</span>
-                    </div>
+                    <button class="setting-option" data-font-size="small" onclick="setFontSize('small')" data-ar="صغير" data-en="Small">صغير</button>
+                    <button class="setting-option active" data-font-size="normal" onclick="setFontSize('normal')" data-ar="عادي" data-en="Normal">عادي</button>
+                    <button class="setting-option" data-font-size="large" onclick="setFontSize('large')" data-ar="كبير" data-en="Large">كبير</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
+    <section id="home" class="hero">
         <div class="hero-content">
-            <h1 data-ar="احم نفسك من الاختراق" data-en="Protect Yourself from Hacking">احم نفسك من الاختراق</h1>
-            <p data-ar="تعلم أحدث تقنيات الحماية السيبرانية مع خبراء المجال واحصل على شهادات معتمدة" data-en="Learn the latest cybersecurity techniques with field experts and get certified">تعلم أحدث تقنيات الحماية السيبرانية مع خبراء المجال واحصل على شهادات معتمدة</p>
-            <a href="#courses" class="cta-button" data-ar="ابدأ التعلم الآن" data-en="Start Learning Now">ابدأ التعلم الآن</a>
+            <h1 class="hero-title" data-ar="احم نفسك من الاختراق" data-en="Protect Yourself from Hacking">احم نفسك من الاختراق</h1>
+            <p class="hero-subtitle" data-ar="تعلم أحدث تقنيات الحماية السيبرانية مع خبراء المجال واحصل على شهادات معتمدة" data-en="Learn the latest cybersecurity techniques with field experts and get certified">تعلم أحدث تقنيات الحماية السيبرانية مع خبراء المجال واحصل على شهادات معتمدة</p>
+            <a href="#courses" class="hero-button" data-ar="ابدأ التعلم الآن" data-en="Start Learning Now">ابدأ التعلم الآن</a>
         </div>
-    </section>
 
-    <!-- Price Calculator -->
-    <section>
+        <!-- Price Calculator -->
         <div class="price-calculator">
             <h3 class="calculator-title" data-ar="حاسبة الأسعار" data-en="Price Calculator">حاسبة الأسعار</h3>
             <div class="calculator-input">
                 <div class="input-group">
                     <label class="input-label" data-ar="المبلغ الأساسي" data-en="Base Amount">المبلغ الأساسي</label>
-                    <input type="number" class="input-field" id="baseAmount" value="100" oninput="calculatePrice()">
+                    <input type="number" id="baseAmount" class="input-field" value="100" oninput="calculatePrice()">
                 </div>
                 <div class="input-group">
                     <label class="input-label" data-ar="نسبة الخصم %" data-en="Discount %">نسبة الخصم %</label>
-                    <input type="number" class="input-field" id="discountPercent" value="20" min="0" max="100" oninput="calculatePrice()">
+                    <input type="number" id="discountPercent" class="input-field" value="20" oninput="calculatePrice()">
                 </div>
             </div>
             <div class="calculator-result">
                 <div class="result-label" data-ar="السعر النهائي" data-en="Final Price">السعر النهائي</div>
-                <div class="result-price" id="finalPrice">$80</div>
+                <div id="finalPrice" class="result-value">$80</div>
             </div>
         </div>
     </section>
 
-    <!-- Discount Section -->
-    <section>
-        <div class="discount-section">
-            <h3 class="discount-title" data-ar="العروض والخصومات" data-en="Offers & Discounts">العروض والخصومات</h3>
-            <div class="discount-grid">
-                <div class="discount-card">
-                    <div class="discount-badge" data-ar="خصم 30%" data-en="30% OFF">خصم 30%</div>
-                    <div class="discount-description" data-ar="خصم للطلاب الجدد على جميع الكورسات" data-en="Discount for new students on all courses">خصم للطلاب الجدد على جميع الكورسات</div>
-                    <div class="discount-code" onclick="copyCode('NEWSTUDENT30')" data-ar="انقر للنسخ: NEWSTUDENT30" data-en="Click to copy: NEWSTUDENT30">NEWSTUDENT30</div>
-                </div>
-                <div class="discount-card">
-                    <div class="discount-badge" data-ar="خصم 50%" data-en="50% OFF">خصم 50%</div>
-                    <div class="discount-description" data-ar="عرض خاص لفترة محدودة على الباقة الشاملة" data-en="Special limited-time offer on the complete package">عرض خاص لفترة محدودة على الباقة الشاملة</div>
-                    <div class="discount-code" onclick="copyCode('SPECIAL50')" data-ar="انقر للنسخ: SPECIAL50" data-en="Click to copy: SPECIAL50">SPECIAL50</div>
-                </div>
-                <div class="discount-card">
-                    <div class="discount-badge" data-ar="خصم 25%" data-en="25% OFF">خصم 25%</div>
-                    <div class="discount-description" data-ar="خصم للمجموعات (3 أشخاص أو أكثر)" data-en="Group discount (3 people or more)">خصم للمجموعات (3 أشخاص أو أكثر)</div>
-                    <div class="discount-code" onclick="copyCode('GROUP25')" data-ar="انقر للنسخ: GROUP25" data-en="Click to copy: GROUP25">GROUP25</div>
-                </div>
+    <!-- Discounts Section -->
+    <section class="discounts-section">
+        <h2 class="section-title" data-ar="العروض والخصومات" data-en="Offers & Discounts">العروض والخصومات</h2>
+        <div class="discounts-grid">
+            <div class="discount-card">
+                <div class="discount-badge" data-ar="خصم 30%" data-en="30% OFF">خصم 30%</div>
+                <h3 class="discount-title" data-ar="خصم للطلاب الجدد على جميع الكورسات" data-en="New Student Discount on All Courses">خصم للطلاب الجدد على جميع الكورسات</h3>
+                <p class="discount-description" data-ar="احصل على خصم 30% على جميع الكورسات عند التسجيل لأول مرة" data-en="Get 30% discount on all courses when registering for the first time">احصل على خصم 30% على جميع الكورسات عند التسجيل لأول مرة</p>
+                <div class="discount-code" onclick="copyCode('NEWSTUDENT30')">NEWSTUDENT30</div>
+            </div>
+
+            <div class="discount-card">
+                <div class="discount-badge" data-ar="خصم 50%" data-en="50% OFF">خصم 50%</div>
+                <h3 class="discount-title" data-ar="عرض خاص لفترة محدودة على الباقة الشاملة" data-en="Limited Time Special Offer on Complete Package">عرض خاص لفترة محدودة على الباقة الشاملة</h3>
+                <p class="discount-description" data-ar="وفر 50% على الباقة الشاملة التي تشمل جميع الكورسات والشهادات" data-en="Save 50% on the complete package that includes all courses and certificates">وفر 50% على الباقة الشاملة التي تشمل جميع الكورسات والشهادات</p>
+                <div class="discount-code" onclick="copyCode('SPECIAL50')">SPECIAL50</div>
+            </div>
+
+            <div class="discount-card">
+                <div class="discount-badge" data-ar="خصم 25%" data-en="25% OFF">خصم 25%</div>
+                <h3 class="discount-title" data-ar="خصم للمجموعات (3 أشخاص أو أكثر)" data-en="Group Discount (3 or more people)">خصم للمجموعات (3 أشخاص أو أكثر)</h3>
+                <p class="discount-description" data-ar="تعلم مع أصدقائك واحصل على خصم 25% عند التسجيل كمجموعة" data-en="Learn with your friends and get 25% discount when registering as a group">تعلم مع أصدقائك واحصل على خصم 25% عند التسجيل كمجموعة</p>
+                <div class="discount-code" onclick="copyCode('GROUP25')">GROUP25</div>
             </div>
         </div>
     </section>
 
     <!-- Courses Section -->
-    <section id="courses">
+    <section id="courses" class="courses-section">
         <h2 class="section-title" data-ar="كورساتنا المتخصصة" data-en="Our Specialized Courses">كورساتنا المتخصصة</h2>
         <div class="courses-grid">
             <div class="course-card">
                 <div class="course-icon">
                     <i class="fas fa-shield-alt"></i>
                 </div>
-                <h3 data-ar="أساسيات الحماية السيبرانية" data-en="Cybersecurity Fundamentals">أساسيات الحماية السيبرانية</h3>
-                <p data-ar="تعلم الأساسيات والمفاهيم الأولية للحماية السيبرانية وكيفية حماية البيانات الشخصية" data-en="Learn the basics and initial concepts of cybersecurity and how to protect personal data">تعلم الأساسيات والمفاهيم الأولية للحماية السيبرانية وكيفية حماية البيانات الشخصية</p>
+                <h3 class="course-title" data-ar="أساسيات الحماية السيبرانية" data-en="Cybersecurity Fundamentals">أساسيات الحماية السيبرانية</h3>
+                <p class="course-description" data-ar="تعلم الأساسيات والمفاهيم الأولية للحماية السيبرانية وكيفية حماية البيانات الشخصية" data-en="Learn the basics and initial concepts of cybersecurity and how to protect personal data">تعلم الأساسيات والمفاهيم الأولية للحماية السيبرانية وكيفية حماية البيانات الشخصية</p>
                 <div class="course-price">
                     <span class="price-original" data-price="150">$150</span>
                     <span class="price-current" data-price="99">$99</span>
@@ -1228,8 +1063,8 @@
                 <div class="course-icon">
                     <i class="fas fa-bug"></i>
                 </div>
-                <h3 data-ar="اختبار الاختراق المتقدم" data-en="Advanced Penetration Testing">اختبار الاختراق المتقدم</h3>
-                <p data-ar="كورس متقدم في اختبار الاختراق واكتشاف الثغرات الأمنية في الأنظمة والشبكات" data-en="Advanced course in penetration testing and discovering security vulnerabilities in systems and networks">كورس متقدم في اختبار الاختراق واكتشاف الثغرات الأمنية في الأنظمة والشبكات</p>
+                <h3 class="course-title" data-ar="اختبار الاختراق المتقدم" data-en="Advanced Penetration Testing">اختبار الاختراق المتقدم</h3>
+                <p class="course-description" data-ar="كورس متقدم في اختبار الاختراق واكتشاف الثغرات الأمنية في الأنظمة والشبكات" data-en="Advanced course in penetration testing and discovering security vulnerabilities in systems and networks">كورس متقدم في اختبار الاختراق واكتشاف الثغرات الأمنية في الأنظمة والشبكات</p>
                 <div class="course-price">
                     <span class="price-original" data-price="300">$300</span>
                     <span class="price-current" data-price="199">$199</span>
@@ -1241,8 +1076,8 @@
                 <div class="course-icon">
                     <i class="fas fa-virus"></i>
                 </div>
-                <h3 data-ar="الحماية من البرمجيات الخبيثة" data-en="Malware Protection">الحماية من البرمجيات الخبيثة</h3>
-                <p data-ar="تعلم كيفية اكتشاف وإزالة البرمجيات الخبيثة وحماية الأنظمة من الفيروسات" data-en="Learn how to detect and remove malware and protect systems from viruses">تعلم كيفية اكتشاف وإزالة البرمجيات الخبيثة وحماية الأنظمة من الفيروسات</p>
+                <h3 class="course-title" data-ar="الحماية من البرمجيات الخبيثة" data-en="Malware Protection">الحماية من البرمجيات الخبيثة</h3>
+                <p class="course-description" data-ar="تعلم كيفية اكتشاف وإزالة البرمجيات الخبيثة وحماية الأنظمة من الفيروسات" data-en="Learn how to detect and remove malware and protect systems from viruses">تعلم كيفية اكتشاف وإزالة البرمجيات الخبيثة وحماية الأنظمة من الفيروسات</p>
                 <div class="course-price">
                     <span class="price-original" data-price="200">$200</span>
                     <span class="price-current" data-price="129">$129</span>
@@ -1254,8 +1089,8 @@
                 <div class="course-icon">
                     <i class="fas fa-network-wired"></i>
                 </div>
-                <h3 data-ar="أمان الشبكات" data-en="Network Security">أمان الشبكات</h3>
-                <p data-ar="كورس شامل في أمان الشبكات وحماية البنية التحتية للمؤسسات من الهجمات السيبرانية" data-en="Comprehensive course in network security and protecting organizational infrastructure from cyber attacks">كورس شامل في أمان الشبكات وحماية البنية التحتية للمؤسسات من الهجمات السيبرانية</p>
+                <h3 class="course-title" data-ar="أمان الشبكات" data-en="Network Security">أمان الشبكات</h3>
+                <p class="course-description" data-ar="كورس شامل في أمان الشبكات وحماية البنية التحتية للمؤسسات من الهجمات السيبرانية" data-en="Comprehensive course in network security and protecting organizational infrastructure from cyber attacks">كورس شامل في أمان الشبكات وحماية البنية التحتية للمؤسسات من الهجمات السيبرانية</p>
                 <div class="course-price">
                     <span class="price-original" data-price="250">$250</span>
                     <span class="price-current" data-price="159">$159</span>
@@ -1266,6 +1101,130 @@
     </section>
 
     <script>
+        // Global variables
+        let settingsManager;
+        let particleSystem;
+        let customCursor;
+
+        // Global Functions (defined first)
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            panel.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            if (!settingsManager) return;
+            const currentTheme = settingsManager.settings.theme;
+            let newTheme;
+            
+            if (currentTheme === 'auto') {
+                newTheme = 'dark';
+            } else if (currentTheme === 'dark') {
+                newTheme = 'light';
+            } else {
+                newTheme = 'auto';
+            }
+            
+            settingsManager.updateSetting('theme', newTheme);
+        }
+
+        function setTheme(theme) {
+            if (!settingsManager) return;
+            settingsManager.updateSetting('theme', theme);
+        }
+
+        function changeLanguage(language) {
+            if (!settingsManager) return;
+            settingsManager.updateSetting('language', language);
+        }
+
+        function changeCurrency(currency) {
+            if (!settingsManager) return;
+            settingsManager.updateSetting('currency', currency);
+        }
+
+        function setAnimations(animations) {
+            if (!settingsManager) return;
+            settingsManager.updateSetting('animations', animations);
+        }
+
+        function setFontSize(fontSize) {
+            if (!settingsManager) return;
+            settingsManager.updateSetting('fontSize', fontSize);
+        }
+
+        function calculatePrice() {
+            const baseAmount = parseFloat(document.getElementById('baseAmount').value) || 0;
+            const discountPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
+            
+            const discountAmount = baseAmount * (discountPercent / 100);
+            const finalAmount = baseAmount - discountAmount;
+            
+            const currencyRates = {
+                'usd': { symbol: '$', rate: 1 },
+                'omr': { symbol: 'ر.ع.', rate: 0.385 },
+                'egp': { symbol: 'ج.م.', rate: 30.9 }
+            };
+            
+            const currentCurrency = settingsManager ? settingsManager.settings.currency : 'usd';
+            const currency = currencyRates[currentCurrency];
+            const convertedPrice = Math.round(finalAmount * currency.rate);
+            
+            document.getElementById('finalPrice').textContent = `${currency.symbol}${convertedPrice}`;
+        }
+
+        function copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                // Show success message
+                const originalText = event.target.textContent;
+                const lang = settingsManager ? settingsManager.settings.language : 'ar';
+                event.target.textContent = lang === 'ar' ? 'تم النسخ!' : 'Copied!';
+                event.target.style.background = 'var(--accent-primary)';
+                event.target.style.color = 'var(--bg-primary)';
+                
+                setTimeout(() => {
+                    event.target.textContent = originalText;
+                    event.target.style.background = '';
+                    event.target.style.color = '';
+                }, 2000);
+            });
+        }
+
+        function buyOnDiscord(courseType) {
+            const discordLinks = {
+                'basics': 'https://discord.gg/cyberacademy-basics',
+                'pentesting': 'https://discord.gg/cyberacademy-pentesting',
+                'malware': 'https://discord.gg/cyberacademy-malware',
+                'network': 'https://discord.gg/cyberacademy-network'
+            };
+            
+            const courseNames = {
+                'ar': {
+                    'basics': 'أساسيات الحماية السيبرانية',
+                    'pentesting': 'اختبار الاختراق المتقدم',
+                    'malware': 'الحماية من البرمجيات الخبيثة',
+                    'network': 'أمان الشبكات'
+                },
+                'en': {
+                    'basics': 'Cybersecurity Fundamentals',
+                    'pentesting': 'Advanced Penetration Testing',
+                    'malware': 'Malware Protection',
+                    'network': 'Network Security'
+                }
+            };
+            
+            const lang = settingsManager ? settingsManager.settings.language : 'ar';
+            const courseName = courseNames[lang][courseType];
+            
+            const messages = {
+                'ar': `للشراء:\n1. انضم إلى سيرفر الديسكورد\n2. توجه إلى قناة #الشراء\n3. اذكر اسم الكورس: ${courseName}\n4. اتبع التعليمات للدفع\n\nسيتم توجيهك الآن إلى الديسكورد...`,
+                'en': `To purchase:\n1. Join the Discord server\n2. Go to #purchase channel\n3. Mention the course name: ${courseName}\n4. Follow payment instructions\n\nYou will now be redirected to Discord...`
+            };
+            
+            alert(messages[lang]);
+            window.open(discordLinks[courseType] || 'https://discord.gg/cyberacademy', '_blank');
+        }
+
         // Settings Manager
         class SettingsManager {
             constructor() {
@@ -1301,62 +1260,42 @@
             }
 
             applySettings() {
-                const root = document.documentElement;
-                
                 // Apply theme
-                if (this.settings.theme === 'auto') {
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-                } else {
-                    root.setAttribute('data-theme', this.settings.theme);
-                }
-
-                // Apply language
-                root.setAttribute('lang', this.settings.language);
-                root.setAttribute('dir', this.settings.language === 'ar' ? 'rtl' : 'ltr');
-
+                document.documentElement.setAttribute('data-theme', this.settings.theme);
+                
+                // Apply language and direction
+                document.documentElement.lang = this.settings.language;
+                document.documentElement.dir = this.settings.language === 'ar' ? 'rtl' : 'ltr';
+                
                 // Apply currency
-                root.setAttribute('data-currency', this.settings.currency);
-
+                document.documentElement.setAttribute('data-currency', this.settings.currency);
+                
                 // Apply animations
-                root.setAttribute('data-animations', this.settings.animations);
-
+                document.documentElement.setAttribute('data-animations', this.settings.animations);
+                
                 // Apply font size
-                root.setAttribute('data-font-size', this.settings.fontSize);
-
-                // Apply high contrast
-                if (this.settings.highContrast) {
-                    root.setAttribute('data-high-contrast', 'true');
-                } else {
-                    root.removeAttribute('data-high-contrast');
-                }
-
-                // Update UI
-                this.updateUI();
+                document.documentElement.setAttribute('data-font-size', this.settings.fontSize);
+                
+                // Update UI elements
+                this.updateActiveStates();
                 this.updateLanguage();
                 this.updatePrices();
             }
 
-            updateUI() {
-                // Update active states in settings panel
+            updateActiveStates() {
+                // Remove all active states
                 document.querySelectorAll('.setting-option').forEach(option => {
                     option.classList.remove('active');
                 });
-
-                // Theme
-                document.querySelector(`[data-theme="${this.settings.theme}"]`)?.classList.add('active');
                 
-                // Language
-                document.querySelector(`[data-language="${this.settings.language}"]`)?.classList.add('active');
-                
-                // Currency
-                document.querySelector(`[data-currency="${this.settings.currency}"]`)?.classList.add('active');
-                
-                // Animations
-                document.querySelector(`[data-animations="${this.settings.animations}"]`)?.classList.add('active');
-                
-                // Font size
-                document.querySelector(`[data-font-size="${this.settings.fontSize}"]`)?.classList.add('active');
+                // Add active states based on current settings
+                Object.keys(this.settings).forEach(key => {
+                    const value = this.settings[key];
+                    const element = document.querySelector(`[data-${key}="${value}"]`);
+                    if (element) {
+                        element.classList.add('active');
+                    }
+                });
             }
 
             updateLanguage() {
@@ -1440,7 +1379,7 @@
             }
 
             init() {
-                if (!settingsManager.settings.customCursor) return;
+                if (!settingsManager || !settingsManager.settings.customCursor) return;
 
                 document.addEventListener('mousemove', (e) => {
                     this.cursor.style.left = e.clientX + 'px';
@@ -1462,149 +1401,45 @@
             }
         }
 
-        // Initialize all systems
-        const settingsManager = new SettingsManager();
-        const particleSystem = new ParticleSystem();
-        const customCursor = new CustomCursor();
-
-        // Hide loading screen immediately when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            if (loadingScreen) {
-                loadingScreen.style.display = 'none';
+        // Loading Manager
+        class LoadingManager {
+            constructor() {
+                this.loadingScreen = document.getElementById('loadingScreen');
+                this.init();
             }
-        });
 
-        // Global Functions
-        function toggleSettings() {
-            const panel = document.getElementById('settingsPanel');
-            panel.classList.toggle('open');
-        }
-
-        function toggleTheme() {
-            const currentTheme = settingsManager.settings.theme;
-            let newTheme;
-            
-            if (currentTheme === 'auto') {
-                newTheme = 'dark';
-            } else if (currentTheme === 'dark') {
-                newTheme = 'light';
-            } else {
-                newTheme = 'auto';
-            }
-            
-            settingsManager.updateSetting('theme', newTheme);
-        }
-
-        function setTheme(theme) {
-            settingsManager.updateSetting('theme', theme);
-        }
-
-        function changeLanguage(language) {
-            settingsManager.updateSetting('language', language);
-        }
-
-        function changeCurrency(currency) {
-            settingsManager.updateSetting('currency', currency);
-        }
-
-        function setAnimations(animations) {
-            settingsManager.updateSetting('animations', animations);
-        }
-
-        function setFontSize(fontSize) {
-            settingsManager.updateSetting('fontSize', fontSize);
-        }
-
-        function calculatePrice() {
-            const baseAmount = parseFloat(document.getElementById('baseAmount').value) || 0;
-            const discountPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
-            
-            const discountAmount = baseAmount * (discountPercent / 100);
-            const finalAmount = baseAmount - discountAmount;
-            
-            const currencyRates = {
-                'usd': { symbol: '$', rate: 1 },
-                'omr': { symbol: 'ر.ع.', rate: 0.385 },
-                'egp': { symbol: 'ج.م.', rate: 30.9 }
-            };
-            
-            const currency = currencyRates[settingsManager.settings.currency];
-            const convertedPrice = Math.round(finalAmount * currency.rate);
-            
-            document.getElementById('finalPrice').textContent = `${currency.symbol}${convertedPrice}`;
-        }
-
-        function copyCode(code) {
-            navigator.clipboard.writeText(code).then(() => {
-                // Show success message
-                const originalText = event.target.textContent;
-                event.target.textContent = settingsManager.settings.language === 'ar' ? 'تم النسخ!' : 'Copied!';
-                event.target.style.background = 'var(--accent-primary)';
-                event.target.style.color = 'var(--bg-primary)';
-                
+            init() {
+                // Show loading screen for 2 seconds
                 setTimeout(() => {
-                    event.target.textContent = originalText;
-                    event.target.style.background = '';
-                    event.target.style.color = '';
+                    this.hideLoading();
                 }, 2000);
-            });
-        }
 
-        function buyOnDiscord(courseType) {
-            const discordLinks = {
-                'basics': 'https://discord.gg/cyberacademy-basics',
-                'pentesting': 'https://discord.gg/cyberacademy-pentesting',
-                'malware': 'https://discord.gg/cyberacademy-malware',
-                'network': 'https://discord.gg/cyberacademy-network'
-            };
-            
-            const courseNames = {
-                'ar': {
-                    'basics': 'أساسيات الحماية السيبرانية',
-                    'pentesting': 'اختبار الاختراق المتقدم',
-                    'malware': 'الحماية من البرمجيات الخبيثة',
-                    'network': 'أمان الشبكات'
-                },
-                'en': {
-                    'basics': 'Cybersecurity Fundamentals',
-                    'pentesting': 'Advanced Penetration Testing',
-                    'malware': 'Malware Protection',
-                    'network': 'Network Security'
-                }
-            };
-            
-            const lang = settingsManager.settings.language;
-            const courseName = courseNames[lang][courseType];
-            
-            const messages = {
-                'ar': `للشراء:\n1. انضم إلى سيرفر الديسكورد\n2. توجه إلى قناة #الشراء\n3. اذكر اسم الكورس: ${courseName}\n4. اتبع التعليمات للدفع\n\nسيتم توجيهك الآن إلى الديسكورد...`,
-                'en': `To purchase:\n1. Join the Discord server\n2. Go to #purchase channel\n3. Mention the course name: ${courseName}\n4. Follow payment instructions\n\nYou will now be redirected to Discord...`
-            };
-            
-            // Play sound if enabled
-            if (settingsManager.settings.sound) {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
+                // Also hide when everything is loaded
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        this.hideLoading();
+                    }, 500);
+                });
             }
-            
-            alert(messages[lang]);
-            window.open(discordLinks[courseType] || 'https://discord.gg/cyberacademy', '_blank');
+
+            hideLoading() {
+                if (this.loadingScreen) {
+                    this.loadingScreen.classList.add('hidden');
+                    setTimeout(() => {
+                        this.loadingScreen.style.display = 'none';
+                    }, 800);
+                }
+            }
         }
 
-        // Event Listeners
+        // Initialize all systems when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize systems
+            settingsManager = new SettingsManager();
+            particleSystem = new ParticleSystem();
+            customCursor = new CustomCursor();
+            const loadingManager = new LoadingManager();
+
             // Smooth scrolling for navigation
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -1669,22 +1504,12 @@
         // Responsive handling
         window.addEventListener('resize', () => {
             // Recreate particles for mobile optimization
-            if (window.innerWidth < 768) {
+            if (window.innerWidth < 768 && particleSystem) {
                 particleSystem.container.innerHTML = '';
                 particleSystem.particles = [];
                 particleSystem.createParticles();
             }
         });
-
-        // Performance monitoring
-        if ('performance' in window) {
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    const perfData = performance.getEntriesByType('navigation')[0];
-                    console.log(`Page load time: ${perfData.loadEventEnd - perfData.loadEventStart}ms`);
-                }, 0);
-            });
-        }
     </script>
 </body>
 </html>
