@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أكاديمية الحماية السيبرانية - كورسات الحماية من الاختراق</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -12,28 +12,64 @@
             --bg-primary: #0a0e27;
             --bg-secondary: #1a1f3a;
             --bg-card: #252b4a;
+            --bg-glass: rgba(37, 43, 74, 0.8);
             --text-primary: #ffffff;
             --text-secondary: #b0b3b8;
             --accent-primary: #00ff88;
             --accent-secondary: #00d4ff;
+            --accent-tertiary: #ff6b6b;
             --border-color: #3a4466;
             --shadow-color: rgba(0, 255, 136, 0.1);
             --gradient-primary: linear-gradient(135deg, #00ff88, #00d4ff);
+            --gradient-secondary: linear-gradient(135deg, #ff6b6b, #ffa500);
             --gradient-bg: linear-gradient(135deg, #0a0e27, #1a1f3a);
+            --gradient-card: linear-gradient(145deg, #252b4a, #1a1f3a);
+            
+            /* Animation settings */
+            --animation-speed: 1;
+            --animation-scale: 1;
+            
+            /* Font settings */
+            --font-size-multiplier: 1;
+            --font-family-primary: 'Tajawal', 'Inter', sans-serif;
+            --font-family-secondary: 'Inter', sans-serif;
+            --font-family-mono: 'JetBrains Mono', monospace;
         }
 
         [data-theme="light"] {
             --bg-primary: #f8f9fa;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.9);
             --text-primary: #2c3e50;
             --text-secondary: #6c757d;
             --accent-primary: #28a745;
             --accent-secondary: #007bff;
+            --accent-tertiary: #dc3545;
             --border-color: #e9ecef;
             --shadow-color: rgba(0, 123, 255, 0.1);
             --gradient-primary: linear-gradient(135deg, #28a745, #007bff);
+            --gradient-secondary: linear-gradient(135deg, #dc3545, #fd7e14);
             --gradient-bg: linear-gradient(135deg, #f8f9fa, #ffffff);
+            --gradient-card: linear-gradient(145deg, #ffffff, #f8f9fa);
+        }
+
+        [data-animations="reduced"] {
+            --animation-speed: 0.5;
+            --animation-scale: 0.5;
+        }
+
+        [data-animations="none"] {
+            --animation-speed: 0;
+            --animation-scale: 0;
+        }
+
+        [data-font-size="small"] {
+            --font-size-multiplier: 0.875;
+        }
+
+        [data-font-size="large"] {
+            --font-size-multiplier: 1.125;
         }
 
         * {
@@ -43,15 +79,134 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-family-primary);
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
             transition: all 0.3s ease;
+            font-size: calc(16px * var(--font-size-multiplier));
         }
 
-        /* Animated Background */
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+            opacity: 0;
+        }
+
+        .custom-cursor.active {
+            opacity: 1;
+        }
+
+        .custom-cursor.hover {
+            transform: scale(2);
+            background: var(--accent-secondary);
+        }
+
+        /* Enhanced Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-animation {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 2rem;
+        }
+
+        .loading-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            border-top-color: var(--accent-secondary);
+            animation-duration: 1.5s;
+            animation-direction: reverse;
+        }
+
+        .loading-ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            border-top-color: var(--accent-tertiary);
+            animation-duration: 2s;
+        }
+
+        .loading-text {
+            font-size: calc(1.2rem * var(--font-size-multiplier));
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+            animation: progress 3s ease-in-out;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* Enhanced Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -60,40 +215,111 @@
             height: 100%;
             z-index: -1;
             background: var(--gradient-bg);
+            overflow: hidden;
         }
 
-        .particles {
+        .particles-container {
             position: absolute;
             width: 100%;
             height: 100%;
-            overflow: hidden;
         }
 
         .particle {
             position: absolute;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float calc(6s / var(--animation-speed)) ease-in-out infinite;
+            opacity: calc(0.7 * var(--animation-scale));
+        }
+
+        .particle.type-1 {
             width: 4px;
             height: 4px;
             background: var(--accent-primary);
+        }
+
+        .particle.type-2 {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-secondary);
+        }
+
+        .particle.type-3 {
+            width: 3px;
+            height: 3px;
+            background: var(--accent-tertiary);
+        }
+
+        .geometric-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: calc(0.1 * var(--animation-scale));
+        }
+
+        .shape {
+            position: absolute;
+            border: 1px solid var(--accent-primary);
+            animation: rotate calc(20s / var(--animation-speed)) linear infinite;
+        }
+
+        .shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid var(--accent-secondary);
+            border-radius: 3px;
+        }
+
+        .shape.square {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--accent-primary);
+            transform-origin: center;
+        }
+
+        .shape.circle {
+            width: 25px;
+            height: 25px;
+            border: 1px solid var(--accent-tertiary);
             border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-            opacity: 0.7;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: calc(0.7 * var(--animation-scale));
+            }
+            50% { 
+                transform: translateY(-20px) rotate(180deg);
+                opacity: calc(1 * var(--animation-scale));
+            }
         }
 
-        /* Header */
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced Header */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(26, 31, 58, 0.95);
-            backdrop-filter: blur(10px);
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
             padding: 1rem 0;
             transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 10px 30px var(--shadow-color);
         }
 
         nav {
@@ -106,12 +332,30 @@
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: calc(1.8rem * var(--font-size-multiplier));
             font-weight: 800;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            font-size: calc(2rem * var(--font-size-multiplier));
+            animation: glow calc(2s / var(--animation-speed)) ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px var(--accent-primary)); }
+            to { filter: drop-shadow(0 0 15px var(--accent-primary)); }
         }
 
         .nav-links {
@@ -124,47 +368,255 @@
             color: var(--text-primary);
             text-decoration: none;
             font-weight: 500;
+            font-size: calc(1rem * var(--font-size-multiplier));
             transition: all 0.3s ease;
             position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
         }
 
         .nav-links a:hover {
             color: var(--accent-primary);
+            background: var(--bg-glass);
+            transform: translateY(-2px);
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -5px;
-            left: 0;
+            bottom: 0;
+            left: 50%;
             width: 0;
             height: 2px;
-            background: var(--accent-primary);
-            transition: width 0.3s ease;
+            background: var(--gradient-primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
 
         .nav-links a:hover::after {
-            width: 100%;
+            width: 80%;
         }
 
-        .theme-toggle {
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-btn {
             background: none;
             border: 2px solid var(--accent-primary);
             color: var(--accent-primary);
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: calc(1rem * var(--font-size-multiplier));
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .control-btn:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .control-btn:hover {
+            color: var(--bg-primary);
+            transform: scale(1.1);
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+
+        .settings-panel.open {
+            right: 0;
+        }
+
+        .settings-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .settings-title {
+            font-size: calc(1.5rem * var(--font-size-multiplier));
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .settings-close {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: calc(1.5rem * var(--font-size-multiplier));
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .settings-close:hover {
+            color: var(--accent-primary);
+            transform: rotate(90deg);
+        }
+
+        .settings-content {
+            padding: 2rem;
+        }
+
+        .setting-group {
+            margin-bottom: 2rem;
+        }
+
+        .setting-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-size: calc(1.1rem * var(--font-size-multiplier));
+        }
+
+        .setting-options {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .setting-option {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
             padding: 0.5rem 1rem;
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: calc(0.9rem * var(--font-size-multiplier));
+            position: relative;
+            overflow: hidden;
         }
 
-        .theme-toggle:hover {
-            background: var(--accent-primary);
+        .setting-option::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .setting-option.active {
+            border-color: var(--accent-primary);
             color: var(--bg-primary);
-            transform: scale(1.05);
         }
 
-        /* Hero Section */
+        .setting-option.active::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .setting-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .setting-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border-color);
+            outline: none;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .setting-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .setting-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .setting-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--border-color);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .setting-toggle.active {
+            background: var(--accent-primary);
+        }
+
+        .setting-toggle::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .setting-toggle.active::before {
+            transform: translateX(30px);
+        }
+
+        /* Enhanced Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -173,15 +625,34 @@
             text-align: center;
             padding: 0 2rem;
             position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            animation: pulse-bg calc(4s / var(--animation-speed)) ease-in-out infinite;
+        }
+
+        @keyframes pulse-bg {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         .hero-content {
-            max-width: 800px;
-            animation: fadeInUp 1s ease-out;
+            max-width: 900px;
+            animation: fadeInUp calc(1s / var(--animation-speed)) ease-out;
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: calc(4rem * var(--font-size-multiplier));
             font-weight: 900;
             margin-bottom: 1rem;
             background: var(--gradient-primary);
@@ -189,6 +660,25 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             line-height: 1.2;
+            position: relative;
+        }
+
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: translateX(-50%);
+            border-radius: 2px;
+            animation: expand calc(2s / var(--animation-speed)) ease-out calc(1s / var(--animation-speed));
+        }
+
+        @keyframes expand {
+            0% { width: 0; }
+            100% { width: 100px; }
         }
 
         .typing-text {
@@ -196,7 +686,9 @@
             border-left: 3px solid var(--accent-primary);
             white-space: nowrap;
             margin: 0 auto;
-            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+            animation: 
+                typing calc(3.5s / var(--animation-speed)) steps(40, end),
+                blink-caret calc(0.75s / var(--animation-speed)) step-end infinite;
         }
 
         @keyframes typing {
@@ -210,67 +702,101 @@
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: calc(1.4rem * var(--font-size-multiplier));
             color: var(--text-secondary);
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out 0.5s both;
+            margin-bottom: 3rem;
+            animation: fadeInUp calc(1s / var(--animation-speed)) ease-out calc(0.5s / var(--animation-speed)) both;
+            line-height: 1.8;
         }
 
         .cta-button {
             display: inline-block;
             background: var(--gradient-primary);
             color: white;
-            padding: 1rem 2.5rem;
+            padding: 1.2rem 3rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            animation: fadeInUp 1s ease-out 1s both;
-            box-shadow: 0 10px 30px var(--shadow-color);
+            font-size: calc(1.2rem * var(--font-size-multiplier));
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp calc(1s / var(--animation-speed)) ease-out calc(1s / var(--animation-speed)) both;
+            box-shadow: 0 15px 35px var(--shadow-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px var(--shadow-color);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 25px 50px var(--shadow-color);
         }
 
-        /* Sections */
+        /* Enhanced Sections */
         section {
-            padding: 5rem 0;
+            padding: 6rem 0;
             max-width: 1200px;
             margin: 0 auto;
             padding-left: 2rem;
             padding-right: 2rem;
+            position: relative;
         }
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: calc(3rem * var(--font-size-multiplier));
             font-weight: 800;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
         }
 
-        /* Courses Grid */
+        .section-title::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* Enhanced Courses Grid */
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
         }
 
         .course-card {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 2rem;
+            background: var(--gradient-card);
+            border-radius: 25px;
+            padding: 2.5rem;
             border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .course-card::before {
@@ -283,147 +809,291 @@
             background: var(--gradient-primary);
         }
 
+        .course-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .course-card:hover::after {
+            opacity: 1;
+        }
+
         .course-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px var(--shadow-color);
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px var(--shadow-color);
+            border-color: var(--accent-primary);
         }
 
         .course-icon {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             background: var(--gradient-primary);
-            border-radius: 15px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-size: calc(2rem * var(--font-size-multiplier));
             color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .course-card:hover .course-icon::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .course-card:hover .course-icon {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .course-card h3 {
-            font-size: 1.5rem;
+            font-size: calc(1.6rem * var(--font-size-multiplier));
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .course-card:hover h3 {
+            color: var(--accent-primary);
         }
 
         .course-card p {
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            font-size: calc(1rem * var(--font-size-multiplier));
         }
 
         .course-level {
             display: inline-block;
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            padding: 0.3rem 1rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: calc(0.85rem * var(--font-size-multiplier));
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .course-price {
-            font-size: 2rem;
+            font-size: calc(2.5rem * var(--font-size-multiplier));
             font-weight: 800;
             color: var(--accent-primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .course-price::before {
+            content: '$';
+            font-size: calc(1.5rem * var(--font-size-multiplier));
+            position: absolute;
+            top: 0;
+            left: -1rem;
         }
 
         .discord-btn {
             width: 100%;
-            background: #5865F2;
+            background: linear-gradient(135deg, #5865F2, #7289DA);
             color: white;
             border: none;
-            padding: 1rem;
-            border-radius: 10px;
+            padding: 1.2rem;
+            border-radius: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            font-size: calc(1rem * var(--font-size-multiplier));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discord-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .discord-btn:hover::before {
+            left: 100%;
         }
 
         .discord-btn:hover {
-            background: #4752C4;
+            background: linear-gradient(135deg, #4752C4, #5865F2);
             transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(88, 101, 242, 0.3);
         }
 
-        /* Features Section */
+        /* Enhanced Features Section */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
         }
 
         .feature-item {
             text-align: center;
-            padding: 2rem;
-            background: var(--bg-card);
-            border-radius: 15px;
+            padding: 3rem 2rem;
+            background: var(--gradient-card);
+            border-radius: 20px;
             border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .feature-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-item:hover::before {
+            opacity: 1;
         }
 
         .feature-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px var(--shadow-color);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px var(--shadow-color);
+            border-color: var(--accent-secondary);
         }
 
         .feature-icon {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background: var(--gradient-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
+            margin: 0 auto 2rem;
+            font-size: calc(2.5rem * var(--font-size-multiplier));
             color: white;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .feature-item:hover .feature-icon::before {
+            width: 120%;
+            height: 120%;
+        }
+
+        .feature-item:hover .feature-icon {
+            transform: scale(1.1) rotate(10deg);
         }
 
         .feature-item h3 {
-            font-size: 1.3rem;
+            font-size: calc(1.4rem * var(--font-size-multiplier));
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .feature-item:hover h3 {
+            color: var(--accent-secondary);
         }
 
         .feature-item p {
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.8;
+            font-size: calc(1rem * var(--font-size-multiplier));
         }
 
-        /* Footer */
+        /* Enhanced Footer */
         footer {
-            background: var(--bg-secondary);
-            padding: 3rem 0 1rem;
+            background: var(--gradient-card);
+            padding: 4rem 0 2rem;
             text-align: center;
             border-top: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 100%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
         }
 
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
         .social-links a {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background: var(--gradient-primary);
             border-radius: 50%;
             display: flex;
@@ -431,18 +1101,40 @@
             justify-content: center;
             color: white;
             text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: calc(1.5rem * var(--font-size-multiplier));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-links a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
             transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .social-links a:hover::before {
+            width: 100%;
+            height: 100%;
         }
 
         .social-links a:hover {
-            transform: scale(1.1);
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 15px 30px var(--shadow-color);
         }
 
         /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -452,13 +1144,17 @@
 
         .fade-in {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
+            transform: translateY(50px);
+            transition: all calc(0.8s / var(--animation-speed)) cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .stagger-animation .fade-in {
+            transition-delay: calc(var(--stagger-delay, 0) * 0.1s / var(--animation-speed));
         }
 
         /* Mobile Responsive */
@@ -467,20 +1163,31 @@
                 display: none;
             }
 
+            .settings-panel {
+                width: 100%;
+                right: -100%;
+            }
+
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: calc(2.5rem * var(--font-size-multiplier));
             }
 
             .hero p {
-                font-size: 1.1rem;
+                font-size: calc(1.1rem * var(--font-size-multiplier));
             }
 
             .section-title {
-                font-size: 2rem;
+                font-size: calc(2rem * var(--font-size-multiplier));
             }
 
             .courses-grid {
                 grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
             nav {
@@ -488,8 +1195,54 @@
             }
 
             section {
-                padding-left: 1rem;
-                padding-right: 1rem;
+                padding: 4rem 1rem;
+            }
+
+            .course-card,
+            .feature-item {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: calc(2rem * var(--font-size-multiplier));
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .course-card {
+                padding: 1.5rem;
+            }
+
+            .social-links {
+                gap: 1rem;
+            }
+
+            .social-links a {
+                width: 50px;
+                height: 50px;
+                font-size: calc(1.2rem * var(--font-size-multiplier));
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            :root {
+                --border-color: #ffffff;
+                --shadow-color: rgba(255, 255, 255, 0.3);
             }
         }
 
@@ -498,73 +1251,141 @@
             scroll-behavior: smooth;
         }
 
-        /* Loading animation */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+        /* Selection styles */
+        ::selection {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
         }
 
-        .loading.hidden {
-            opacity: 0;
-            pointer-events: none;
+        ::-moz-selection {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
         }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--border-color);
-            border-top: 3px solid var(--accent-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
+
+    <!-- Enhanced Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-animation">
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+        </div>
+        <div class="loading-text" id="loadingText">جاري التحميل...</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar"></div>
+        </div>
     </div>
 
-    <!-- Animated Background -->
+    <!-- Enhanced Animated Background -->
     <div class="animated-bg">
-        <div class="particles" id="particles"></div>
+        <div class="particles-container" id="particlesContainer"></div>
+        <div class="geometric-shapes" id="geometricShapes"></div>
     </div>
 
-    <!-- Header -->
-    <header>
+    <!-- Enhanced Header -->
+    <header id="header">
         <nav>
-            <div class="logo">🛡️ CyberAcademy</div>
+            <div class="logo">
+                <span class="logo-icon">🛡️</span>
+                CyberAcademy
+            </div>
             <ul class="nav-links">
                 <li><a href="#home">الرئيسية</a></li>
                 <li><a href="#courses">الكورسات</a></li>
                 <li><a href="#features">المميزات</a></li>
                 <li><a href="#contact">اتصل بنا</a></li>
             </ul>
-            <button class="theme-toggle" onclick="toggleTheme()">
-                <i class="fas fa-moon" id="theme-icon"></i>
-            </button>
+            <div class="nav-controls">
+                <button class="control-btn" onclick="toggleSettings()" title="الإعدادات">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="control-btn" onclick="toggleTheme()" title="تبديل الثيم" id="themeToggle">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h2 class="settings-title">الإعدادات</h2>
+            <button class="settings-close" onclick="toggleSettings()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="settings-content">
+            <div class="setting-group">
+                <label class="setting-label">نمط العرض</label>
+                <div class="setting-options">
+                    <button class="setting-option active" data-theme="auto">تلقائي</button>
+                    <button class="setting-option" data-theme="dark">مظلم</button>
+                    <button class="setting-option" data-theme="light">فاتح</button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">الأنيميشن</label>
+                <div class="setting-options">
+                    <button class="setting-option active" data-animations="full">كامل</button>
+                    <button class="setting-option" data-animations="reduced">مخفض</button>
+                    <button class="setting-option" data-animations="none">معطل</button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">حجم الخط</label>
+                <div class="setting-options">
+                    <button class="setting-option" data-font-size="small">صغير</button>
+                    <button class="setting-option active" data-font-size="medium">متوسط</button>
+                    <button class="setting-option" data-font-size="large">كبير</button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">التأثيرات الصوتية</label>
+                <div class="setting-toggle" id="soundToggle" onclick="toggleSound()"></div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">المؤشر المخصص</label>
+                <div class="setting-toggle active" id="cursorToggle" onclick="toggleCustomCursor()"></div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">التباين العالي</label>
+                <div class="setting-toggle" id="contrastToggle" onclick="toggleHighContrast()"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
             <h1 class="typing-text">أكاديمية الحماية السيبرانية</h1>
-            <p>تعلم أحدث تقنيات الحماية من الاختراق والأمن السيبراني مع خبراء المجال</p>
+            <p>تعلم أحدث تقنيات الحماية من الاختراق والأمن السيبراني مع خبراء المجال المعتمدين دولياً</p>
             <a href="#courses" class="cta-button">
                 <i class="fas fa-rocket"></i>
                 ابدأ رحلتك الآن
@@ -572,60 +1393,60 @@
         </div>
     </section>
 
-    <!-- Courses Section -->
+    <!-- Enhanced Courses Section -->
     <section id="courses">
         <h2 class="section-title fade-in">كورساتنا المتخصصة</h2>
-        <div class="courses-grid">
-            <div class="course-card fade-in">
+        <div class="courses-grid stagger-animation">
+            <div class="course-card fade-in" style="--stagger-delay: 1">
                 <div class="course-icon">
                     <i class="fas fa-shield-alt"></i>
                 </div>
                 <span class="course-level">مبتدئ</span>
                 <h3>أساسيات الحماية السيبرانية</h3>
-                <p>تعلم الأساسيات الضرورية لحماية الأنظمة والبيانات من التهديدات السيبرانية المختلفة</p>
-                <div class="course-price">$50</div>
+                <p>تعلم الأساسيات الضرورية لحماية الأنظمة والبيانات من التهديدات السيبرانية المختلفة مع التطبيق العملي</p>
+                <div class="course-price">50</div>
                 <button class="discord-btn" onclick="buyOnDiscord('basics')">
                     <i class="fab fa-discord"></i>
                     اشتري عبر الديسكورد
                 </button>
             </div>
 
-            <div class="course-card fade-in">
+            <div class="course-card fade-in" style="--stagger-delay: 2">
                 <div class="course-icon">
                     <i class="fas fa-bug"></i>
                 </div>
                 <span class="course-level">متوسط</span>
                 <h3>اختبار الاختراق المتقدم</h3>
-                <p>تعلم تقنيات اختبار الاختراق الأخلاقي وكيفية اكتشاف الثغرات الأمنية</p>
-                <div class="course-price">$100</div>
+                <p>تعلم تقنيات اختبار الاختراق الأخلاقي وكيفية اكتشاف الثغرات الأمنية في الأنظمة والتطبيقات</p>
+                <div class="course-price">100</div>
                 <button class="discord-btn" onclick="buyOnDiscord('pentesting')">
                     <i class="fab fa-discord"></i>
                     اشتري عبر الديسكورد
                 </button>
             </div>
 
-            <div class="course-card fade-in">
+            <div class="course-card fade-in" style="--stagger-delay: 3">
                 <div class="course-icon">
                     <i class="fas fa-virus"></i>
                 </div>
                 <span class="course-level">مبتدئ</span>
                 <h3>الحماية من البرمجيات الخبيثة</h3>
-                <p>فهم أنواع البرمجيات الخبيثة وطرق الحماية منها وإزالتها</p>
-                <div class="course-price">$75</div>
+                <p>فهم أنواع البرمجيات الخبيثة وطرق الحماية منها وإزالتها مع أحدث تقنيات الكشف والمنع</p>
+                <div class="course-price">75</div>
                 <button class="discord-btn" onclick="buyOnDiscord('malware')">
                     <i class="fab fa-discord"></i>
                     اشتري عبر الديسكورد
                 </button>
             </div>
 
-            <div class="course-card fade-in">
+            <div class="course-card fade-in" style="--stagger-delay: 4">
                 <div class="course-icon">
                     <i class="fas fa-network-wired"></i>
                 </div>
                 <span class="course-level">متقدم</span>
                 <h3>أمان الشبكات</h3>
-                <p>تأمين الشبكات وحمايتها من الهجمات المختلفة وإدارة أنظمة الأمان</p>
-                <div class="course-price">$150</div>
+                <p>تأمين الشبكات وحمايتها من الهجمات المختلفة وإدارة أنظمة الأمان المتقدمة والمراقبة</p>
+                <div class="course-price">150</div>
                 <button class="discord-btn" onclick="buyOnDiscord('network')">
                     <i class="fab fa-discord"></i>
                     اشتري عبر الديسكورد
@@ -634,123 +1455,514 @@
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Enhanced Features Section -->
     <section id="features">
         <h2 class="section-title fade-in">لماذا تختارنا؟</h2>
-        <div class="features-grid">
-            <div class="feature-item fade-in">
+        <div class="features-grid stagger-animation">
+            <div class="feature-item fade-in" style="--stagger-delay: 1">
                 <div class="feature-icon">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
                 <h3>خبراء معتمدون</h3>
-                <p>مدربون معتمدون دولياً مع سنوات من الخبرة في مجال الأمن السيبراني</p>
+                <p>مدربون معتمدون دولياً مع سنوات من الخبرة في مجال الأمن السيبراني والحماية من التهديدات</p>
             </div>
 
-            <div class="feature-item fade-in">
+            <div class="feature-item fade-in" style="--stagger-delay: 2">
                 <div class="feature-icon">
                     <i class="fas fa-laptop-code"></i>
                 </div>
                 <h3>تطبيق عملي</h3>
-                <p>تعلم من خلال المشاريع العملية والتطبيق المباشر على بيئات حقيقية</p>
+                <p>تعلم من خلال المشاريع العملية والتطبيق المباشر على بيئات حقيقية ومحاكاة للهجمات</p>
             </div>
 
-            <div class="feature-item fade-in">
+            <div class="feature-item fade-in" style="--stagger-delay: 3">
                 <div class="feature-icon">
                     <i class="fas fa-certificate"></i>
                 </div>
                 <h3>شهادات معتمدة</h3>
-                <p>احصل على شهادات معتمدة تساعدك في تطوير مسيرتك المهنية</p>
+                <p>احصل على شهادات معتمدة دولياً تساعدك في تطوير مسيرتك المهنية في مجال الأمن السيبراني</p>
             </div>
 
-            <div class="feature-item fade-in">
+            <div class="feature-item fade-in" style="--stagger-delay: 4">
                 <div class="feature-icon">
                     <i class="fas fa-headset"></i>
                 </div>
                 <h3>دعم مستمر</h3>
-                <p>دعم فني مستمر ومتابعة شخصية لضمان تحقيق أهدافك التعليمية</p>
+                <p>دعم فني مستمر ومتابعة شخصية لضمان تحقيق أهدافك التعليمية والمهنية في الأمن السيبراني</p>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Enhanced Footer -->
     <footer id="contact">
         <div class="footer-content">
             <div class="social-links">
-                <a href="#"><i class="fab fa-discord"></i></a>
-                <a href="#"><i class="fab fa-telegram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
+                <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
             </div>
             <p>&copy; 2024 أكاديمية الحماية السيبرانية. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
 
     <script>
-        // Loading screen
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('hidden');
-            }, 1000);
-        });
-
-        // Create particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                particlesContainer.appendChild(particle);
+        // Enhanced Settings System
+        class SettingsManager {
+            constructor() {
+                this.settings = {
+                    theme: 'auto',
+                    animations: 'full',
+                    fontSize: 'medium',
+                    sound: true,
+                    customCursor: true,
+                    highContrast: false
+                };
+                this.loadSettings();
+                this.applySettings();
+                this.detectSystemPreferences();
             }
-        }
 
-        // Theme toggle
-        function toggleTheme() {
-            const body = document.body;
-            const themeIcon = document.getElementById('theme-icon');
-            
-            if (body.getAttribute('data-theme') === 'light') {
-                body.removeAttribute('data-theme');
-                themeIcon.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.setAttribute('data-theme', 'light');
-                themeIcon.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'light');
-            }
-        }
-
-        // Load saved theme
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const themeIcon = document.getElementById('theme-icon');
-            
-            if (savedTheme === 'light') {
-                document.body.setAttribute('data-theme', 'light');
-                themeIcon.className = 'fas fa-sun';
-            }
-        }
-
-        // Scroll animations
-        function handleScrollAnimations() {
-            const elements = document.querySelectorAll('.fade-in');
-            
-            elements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < window.innerHeight - elementVisible) {
-                    element.classList.add('visible');
+            loadSettings() {
+                const saved = localStorage.getItem('cyberAcademySettings');
+                if (saved) {
+                    this.settings = { ...this.settings, ...JSON.parse(saved) };
                 }
-            });
+            }
+
+            saveSettings() {
+                localStorage.setItem('cyberAcademySettings', JSON.stringify(this.settings));
+            }
+
+            updateSetting(key, value) {
+                this.settings[key] = value;
+                this.saveSettings();
+                this.applySettings();
+            }
+
+            applySettings() {
+                const body = document.body;
+                
+                // Apply theme
+                if (this.settings.theme === 'auto') {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    body.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+                } else {
+                    body.setAttribute('data-theme', this.settings.theme);
+                }
+
+                // Apply animations
+                body.setAttribute('data-animations', this.settings.animations);
+
+                // Apply font size
+                body.setAttribute('data-font-size', this.settings.fontSize);
+
+                // Apply custom cursor
+                const cursor = document.getElementById('customCursor');
+                if (this.settings.customCursor) {
+                    cursor.classList.add('active');
+                } else {
+                    cursor.classList.remove('active');
+                }
+
+                // Apply high contrast
+                if (this.settings.highContrast) {
+                    body.classList.add('high-contrast');
+                } else {
+                    body.classList.remove('high-contrast');
+                }
+
+                this.updateUI();
+            }
+
+            updateUI() {
+                // Update theme toggle icon
+                const themeIcon = document.getElementById('themeIcon');
+                const currentTheme = document.body.getAttribute('data-theme');
+                themeIcon.className = currentTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+
+                // Update setting options
+                document.querySelectorAll('.setting-option').forEach(option => {
+                    option.classList.remove('active');
+                });
+
+                document.querySelectorAll(`[data-theme="${this.settings.theme}"]`).forEach(el => {
+                    el.classList.add('active');
+                });
+
+                document.querySelectorAll(`[data-animations="${this.settings.animations}"]`).forEach(el => {
+                    el.classList.add('active');
+                });
+
+                document.querySelectorAll(`[data-font-size="${this.settings.fontSize}"]`).forEach(el => {
+                    el.classList.add('active');
+                });
+
+                // Update toggles
+                document.getElementById('soundToggle').classList.toggle('active', this.settings.sound);
+                document.getElementById('cursorToggle').classList.toggle('active', this.settings.customCursor);
+                document.getElementById('contrastToggle').classList.toggle('active', this.settings.highContrast);
+            }
+
+            detectSystemPreferences() {
+                // Listen for system theme changes
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    if (this.settings.theme === 'auto') {
+                        this.applySettings();
+                    }
+                });
+
+                // Detect reduced motion preference
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    this.updateSetting('animations', 'none');
+                }
+            }
         }
 
-        // Discord purchase function
+        // Initialize settings manager
+        const settingsManager = new SettingsManager();
+
+        // Enhanced Loading Screen
+        class LoadingManager {
+            constructor() {
+                this.loadingTexts = [
+                    'جاري التحميل...',
+                    'تحضير المحتوى...',
+                    'تهيئة الأنيميشن...',
+                    'تطبيق الإعدادات...',
+                    'تقريباً انتهينا...'
+                ];
+                this.currentTextIndex = 0;
+                this.startLoading();
+            }
+
+            startLoading() {
+                const loadingText = document.getElementById('loadingText');
+                
+                // Change loading text every 600ms
+                const textInterval = setInterval(() => {
+                    if (this.currentTextIndex < this.loadingTexts.length - 1) {
+                        this.currentTextIndex++;
+                        loadingText.textContent = this.loadingTexts[this.currentTextIndex];
+                    } else {
+                        clearInterval(textInterval);
+                    }
+                }, 600);
+
+                // Hide loading screen after 3 seconds
+                setTimeout(() => {
+                    this.hideLoading();
+                }, 3000);
+            }
+
+            hideLoading() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.classList.add('hidden');
+                
+                // Initialize other components after loading
+                setTimeout(() => {
+                    this.initializeComponents();
+                }, 500);
+            }
+
+            initializeComponents() {
+                particleSystem.init();
+                animationManager.init();
+                deviceDetector.init();
+            }
+        }
+
+        // Enhanced Particle System
+        class ParticleSystem {
+            constructor() {
+                this.particles = [];
+                this.shapes = [];
+                this.container = document.getElementById('particlesContainer');
+                this.shapesContainer = document.getElementById('geometricShapes');
+            }
+
+            init() {
+                this.createParticles();
+                this.createShapes();
+                this.animate();
+            }
+
+            createParticles() {
+                const particleCount = window.innerWidth < 768 ? 30 : 60;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    const type = Math.floor(Math.random() * 3) + 1;
+                    
+                    particle.className = `particle type-${type}`;
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 6 + 's';
+                    particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    
+                    this.container.appendChild(particle);
+                    this.particles.push(particle);
+                }
+            }
+
+            createShapes() {
+                const shapeCount = window.innerWidth < 768 ? 5 : 10;
+                const shapeTypes = ['triangle', 'square', 'circle'];
+                
+                for (let i = 0; i < shapeCount; i++) {
+                    const shape = document.createElement('div');
+                    const type = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+                    
+                    shape.className = `shape ${type}`;
+                    shape.style.left = Math.random() * 100 + '%';
+                    shape.style.top = Math.random() * 100 + '%';
+                    shape.style.animationDelay = Math.random() * 20 + 's';
+                    shape.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                    
+                    this.shapesContainer.appendChild(shape);
+                    this.shapes.push(shape);
+                }
+            }
+
+            animate() {
+                // Add mouse interaction
+                document.addEventListener('mousemove', (e) => {
+                    if (!settingsManager.settings.customCursor) return;
+                    
+                    const mouseX = e.clientX / window.innerWidth;
+                    const mouseY = e.clientY / window.innerHeight;
+                    
+                    this.particles.forEach((particle, index) => {
+                        const influence = 0.1;
+                        const offsetX = (mouseX - 0.5) * influence * (index % 2 === 0 ? 1 : -1);
+                        const offsetY = (mouseY - 0.5) * influence * (index % 2 === 0 ? 1 : -1);
+                        
+                        particle.style.transform = `translate(${offsetX * 50}px, ${offsetY * 50}px)`;
+                    });
+                });
+            }
+        }
+
+        // Enhanced Animation Manager
+        class AnimationManager {
+            constructor() {
+                this.observer = null;
+                this.elements = [];
+            }
+
+            init() {
+                this.setupIntersectionObserver();
+                this.observeElements();
+                this.setupScrollAnimations();
+            }
+
+            setupIntersectionObserver() {
+                const options = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                this.observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, options);
+            }
+
+            observeElements() {
+                const elements = document.querySelectorAll('.fade-in');
+                elements.forEach(element => {
+                    this.observer.observe(element);
+                });
+            }
+
+            setupScrollAnimations() {
+                const header = document.getElementById('header');
+                let lastScrollY = window.scrollY;
+
+                window.addEventListener('scroll', () => {
+                    const currentScrollY = window.scrollY;
+                    
+                    // Header scroll effect
+                    if (currentScrollY > 100) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+
+                    // Parallax effect for hero
+                    const hero = document.querySelector('.hero');
+                    if (hero) {
+                        const scrolled = currentScrollY;
+                        const rate = scrolled * -0.5;
+                        hero.style.transform = `translateY(${rate}px)`;
+                    }
+
+                    lastScrollY = currentScrollY;
+                });
+            }
+        }
+
+        // Device Detection and Optimization
+        class DeviceDetector {
+            constructor() {
+                this.device = this.detectDevice();
+                this.connection = this.detectConnection();
+            }
+
+            init() {
+                this.optimizeForDevice();
+                this.optimizeForConnection();
+                this.setupTouchEvents();
+            }
+
+            detectDevice() {
+                const userAgent = navigator.userAgent;
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+                const isTablet = /iPad|Android(?=.*\bMobile\b)(?=.*\bSafari\b)/i.test(userAgent) || 
+                                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                
+                if (isMobile && !isTablet) return 'mobile';
+                if (isTablet) return 'tablet';
+                return 'desktop';
+            }
+
+            detectConnection() {
+                if ('connection' in navigator) {
+                    const connection = navigator.connection;
+                    return {
+                        effectiveType: connection.effectiveType,
+                        downlink: connection.downlink,
+                        saveData: connection.saveData
+                    };
+                }
+                return null;
+            }
+
+            optimizeForDevice() {
+                document.body.setAttribute('data-device', this.device);
+                
+                if (this.device === 'mobile') {
+                    // Reduce particles for mobile
+                    settingsManager.updateSetting('animations', 'reduced');
+                    
+                    // Optimize touch targets
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        .control-btn, .discord-btn, .cta-button {
+                            min-height: 44px;
+                            min-width: 44px;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+
+            optimizeForConnection() {
+                if (this.connection && this.connection.saveData) {
+                    settingsManager.updateSetting('animations', 'none');
+                }
+                
+                if (this.connection && this.connection.effectiveType === 'slow-2g') {
+                    settingsManager.updateSetting('animations', 'none');
+                }
+            }
+
+            setupTouchEvents() {
+                if (this.device !== 'desktop') {
+                    // Add touch feedback
+                    document.addEventListener('touchstart', (e) => {
+                        if (e.target.matches('.course-card, .feature-item, .control-btn, .discord-btn')) {
+                            e.target.style.transform = 'scale(0.98)';
+                        }
+                    });
+
+                    document.addEventListener('touchend', (e) => {
+                        if (e.target.matches('.course-card, .feature-item, .control-btn, .discord-btn')) {
+                            setTimeout(() => {
+                                e.target.style.transform = '';
+                            }, 150);
+                        }
+                    });
+                }
+            }
+        }
+
+        // Enhanced Custom Cursor
+        class CustomCursor {
+            constructor() {
+                this.cursor = document.getElementById('customCursor');
+                this.init();
+            }
+
+            init() {
+                if (!settingsManager.settings.customCursor) return;
+
+                document.addEventListener('mousemove', (e) => {
+                    this.cursor.style.left = e.clientX + 'px';
+                    this.cursor.style.top = e.clientY + 'px';
+                });
+
+                // Add hover effects
+                const hoverElements = document.querySelectorAll('a, button, .course-card, .feature-item');
+                hoverElements.forEach(element => {
+                    element.addEventListener('mouseenter', () => {
+                        this.cursor.classList.add('hover');
+                    });
+
+                    element.addEventListener('mouseleave', () => {
+                        this.cursor.classList.remove('hover');
+                    });
+                });
+            }
+        }
+
+        // Initialize all systems
+        const loadingManager = new LoadingManager();
+        const particleSystem = new ParticleSystem();
+        const animationManager = new AnimationManager();
+        const deviceDetector = new DeviceDetector();
+        const customCursor = new CustomCursor();
+
+        // Global Functions
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            panel.classList.toggle('open');
+        }
+
+        function toggleTheme() {
+            const currentTheme = settingsManager.settings.theme;
+            let newTheme;
+            
+            if (currentTheme === 'auto') {
+                newTheme = 'dark';
+            } else if (currentTheme === 'dark') {
+                newTheme = 'light';
+            } else {
+                newTheme = 'auto';
+            }
+            
+            settingsManager.updateSetting('theme', newTheme);
+        }
+
+        function toggleSound() {
+            settingsManager.updateSetting('sound', !settingsManager.settings.sound);
+        }
+
+        function toggleCustomCursor() {
+            settingsManager.updateSetting('customCursor', !settingsManager.settings.customCursor);
+            if (settingsManager.settings.customCursor) {
+                customCursor.init();
+            }
+        }
+
+        function toggleHighContrast() {
+            settingsManager.updateSetting('highContrast', !settingsManager.settings.highContrast);
+        }
+
         function buyOnDiscord(courseType) {
             const discordLinks = {
                 'basics': 'https://discord.gg/cyberacademy-basics',
@@ -759,65 +1971,127 @@
                 'network': 'https://discord.gg/cyberacademy-network'
             };
             
-            // Show purchase instructions
-            alert(`للشراء:\n1. انضم إلى سيرفر الديسكورد\n2. توجه إلى قناة #الشراء\n3. اذكر اسم الكورس: ${courseType}\n4. اتبع التعليمات للدفع\n\nسيتم توجيهك الآن إلى الديسكورد...`);
+            const courseNames = {
+                'basics': 'أساسيات الحماية السيبرانية',
+                'pentesting': 'اختبار الاختراق المتقدم',
+                'malware': 'الحماية من البرمجيات الخبيثة',
+                'network': 'أمان الشبكات'
+            };
             
-            // Open Discord (in real implementation, use actual Discord server link)
+            // Play sound if enabled
+            if (settingsManager.settings.sound) {
+                // Create audio context for click sound
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            }
+            
+            // Show purchase instructions
+            alert(`للشراء:\n1. انضم إلى سيرفر الديسكورد\n2. توجه إلى قناة #الشراء\n3. اذكر اسم الكورس: ${courseNames[courseType]}\n4. اتبع التعليمات للدفع\n\nسيتم توجيهك الآن إلى الديسكورد...`);
+            
+            // Open Discord
             window.open(discordLinks[courseType] || 'https://discord.gg/cyberacademy', '_blank');
         }
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Initialize
+        // Settings event listeners
         document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
-            loadTheme();
-            handleScrollAnimations();
-            
-            // Add scroll event listener
-            window.addEventListener('scroll', handleScrollAnimations);
-            
-            // Add typing effect to hero title
+            // Theme options
+            document.querySelectorAll('[data-theme]').forEach(option => {
+                option.addEventListener('click', () => {
+                    settingsManager.updateSetting('theme', option.dataset.theme);
+                });
+            });
+
+            // Animation options
+            document.querySelectorAll('[data-animations]').forEach(option => {
+                option.addEventListener('click', () => {
+                    settingsManager.updateSetting('animations', option.dataset.animations);
+                });
+            });
+
+            // Font size options
+            document.querySelectorAll('[data-font-size]').forEach(option => {
+                option.addEventListener('click', () => {
+                    settingsManager.updateSetting('fontSize', option.dataset.fontSize);
+                });
+            });
+
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Typing effect for hero title
             const heroTitle = document.querySelector('.typing-text');
             if (heroTitle) {
                 heroTitle.style.width = '0';
                 setTimeout(() => {
                     heroTitle.style.width = '100%';
-                }, 500);
+                }, 1000);
             }
+
+            // Close settings panel when clicking outside
+            document.addEventListener('click', (e) => {
+                const panel = document.getElementById('settingsPanel');
+                const settingsBtn = document.querySelector('[onclick="toggleSettings()"]');
+                
+                if (!panel.contains(e.target) && !settingsBtn.contains(e.target) && panel.classList.contains('open')) {
+                    panel.classList.remove('open');
+                }
+            });
         });
 
-        // Add some interactive effects
-        document.querySelectorAll('.course-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'd':
+                        e.preventDefault();
+                        toggleTheme();
+                        break;
+                    case ',':
+                        e.preventDefault();
+                        toggleSettings();
+                        break;
+                }
+            }
             
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
-        // Add parallax effect to hero section
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero) {
-                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            if (e.key === 'Escape') {
+                const panel = document.getElementById('settingsPanel');
+                if (panel.classList.contains('open')) {
+                    panel.classList.remove('open');
+                }
             }
         });
+
+        // Performance monitoring
+        if ('performance' in window) {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    console.log(`Page load time: ${perfData.loadEventEnd - perfData.loadEventStart}ms`);
+                }, 0);
+            });
+        }
     </script>
 </body>
 </html>
