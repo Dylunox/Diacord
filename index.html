@@ -1020,8 +1020,8 @@
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
+    <!-- Loading Screen (Hidden by default) -->
+    <div class="loading-screen" id="loadingScreen" style="display: none;">
         <div class="loading-animation">
             <div class="loading-ring"></div>
             <div class="loading-ring"></div>
@@ -1432,29 +1432,6 @@
             }
         }
 
-        // Loading Manager
-        class LoadingManager {
-            constructor() {
-                this.loadingScreen = document.getElementById('loadingScreen');
-                this.init();
-            }
-
-            init() {
-                window.addEventListener('load', () => {
-                    setTimeout(() => {
-                        this.hideLoading();
-                    }, 2000);
-                });
-            }
-
-            hideLoading() {
-                this.loadingScreen.classList.add('hidden');
-                setTimeout(() => {
-                    this.loadingScreen.style.display = 'none';
-                }, 800);
-            }
-        }
-
         // Custom Cursor
         class CustomCursor {
             constructor() {
@@ -1488,8 +1465,15 @@
         // Initialize all systems
         const settingsManager = new SettingsManager();
         const particleSystem = new ParticleSystem();
-        const loadingManager = new LoadingManager();
         const customCursor = new CustomCursor();
+
+        // Hide loading screen immediately when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+        });
 
         // Global Functions
         function toggleSettings() {
